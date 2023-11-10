@@ -1,14 +1,15 @@
 package christmas.domain;
 
-import static christmas.domain.MenuCategory.APPETIZER;
-import static christmas.domain.MenuCategory.DESSERT;
-import static christmas.domain.MenuCategory.DRINK;
-import static christmas.domain.MenuCategory.MAIN;
+import static christmas.constant.ErrorMessage.INVALID_ORDER;
+import static christmas.constant.MenuCategory.APPETIZER;
+import static christmas.constant.MenuCategory.DESSERT;
+import static christmas.constant.MenuCategory.DRINK;
+import static christmas.constant.MenuCategory.MAIN;
 
+import christmas.constant.MenuCategory;
 import java.util.Arrays;
 
 public enum Menu {
-    //그냥 메뉴 가격과 음료,디저트 등 종류를 알려주는 역할만
     MUSHROOM_SOUP(APPETIZER, "양송이수프", 6_000),
     TAPAS(APPETIZER, "타파스", 5_500),
     CAESAR_SALAD(APPETIZER, "시저샐러드", 8_000),
@@ -22,9 +23,9 @@ public enum Menu {
     RED_WINE(DRINK, "레드와인", 60_000),
     CHAMPAGNE(DRINK, "샴페인", 25_000);
 
-    private MenuCategory category;
-    private String name;
-    private Integer cost;
+    private final MenuCategory category;
+    private final String name;
+    private final Integer cost;
 
     Menu(MenuCategory category, String name, Integer cost) {
         this.category = category;
@@ -32,34 +33,30 @@ public enum Menu {
         this.cost = cost;
     }
 
-    private static Menu noSuchMenu() {
-        throw new IllegalArgumentException("[ERROR] 유효하지 않은 주문입니다. 다시 입력해 주세요.");
-    }
-
-    public static Menu toMenu(String name) {
+    public static Menu toMenu(String input) {
         return Arrays.stream(Menu.values())
-                .filter(menu -> menu.name.equals(name))
+                .filter(menu -> input.equals(menu.name))
                 .findAny()
-                .orElse(noSuchMenu());
+                .orElseThrow(() -> new IllegalArgumentException(INVALID_ORDER.getMessage()));
     }
 
-    public static boolean isDrink(Menu menu) {
-        return menu.category == DRINK;
+    public boolean isDrink() {
+        return category == DRINK;
     }
 
-    public static boolean isMain(Menu menu) {
-        return menu.category == MAIN;
+    public boolean isMain() {
+        return category == MAIN;
     }
 
-    public static boolean isDessert(Menu menu) {
-        return menu.category == DESSERT;
+    public boolean isDessert() {
+        return category == DESSERT;
     }
 
-    public static Integer getCost(Menu menu) {
-        return menu.cost;
+    public Integer getCost() {
+        return cost;
     }
 
-    public static String getName(Menu menu) {
-        return menu.name;
+    public String getName() {
+        return name;
     }
 }
