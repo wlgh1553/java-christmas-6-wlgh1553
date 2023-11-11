@@ -1,5 +1,7 @@
 package christmas.repository;
 
+import static christmas.constant.ErrorMessage.CANNOT_ONLY_DRINK;
+import static christmas.constant.ErrorMessage.CANNOT_ORDER_MORE_THAN_20;
 import static christmas.constant.ErrorMessage.INVALID_ORDER;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -22,7 +24,7 @@ public class MenusTest {
 
         assertThat(menus.getTotalCost()).isEqualTo(14_500);
     }
-    
+
     @Test
     @DisplayName("없는 메뉴가 들어오는 경우 예외가 발생한다.")
     void noSuchMenuException() {
@@ -34,5 +36,31 @@ public class MenusTest {
         assertThatThrownBy(() -> new Menus(inputOrders))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining(INVALID_ORDER.getMessage());
+    }
+
+    @Test
+    @DisplayName("음료만 주문한 경우 예외가 발생한다.")
+    void onlyDrinkException() {
+        Map<String, Integer> inputOrders = new HashMap<>() {{
+            put("레드와인", 1);
+            put("제로콜라", 3);
+        }};
+
+        assertThatThrownBy(() -> new Menus(inputOrders))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining(CANNOT_ONLY_DRINK.getMessage());
+    }
+
+    @Test
+    @DisplayName("20개 초과 주문 시 예외가 발생한다.")
+    void moreThan20Exception() {
+        Map<String, Integer> inputOrders = new HashMap<>() {{
+            put("타파스", 10);
+            put("제로콜라", 20);
+        }};
+
+        assertThatThrownBy(() -> new Menus(inputOrders))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining(CANNOT_ORDER_MORE_THAN_20.getMessage());
     }
 }

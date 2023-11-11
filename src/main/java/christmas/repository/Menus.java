@@ -1,5 +1,7 @@
 package christmas.repository;
 
+import static christmas.constant.ErrorMessage.CANNOT_ONLY_DRINK;
+import static christmas.constant.ErrorMessage.CANNOT_ORDER_MORE_THAN_20;
 import static christmas.domain.Menu.toMenu;
 
 import christmas.domain.Menu;
@@ -14,6 +16,25 @@ public class Menus {
         for (Map.Entry<String, Integer> entry : inputOrders.entrySet()) {
             menus.put(toMenu(entry.getKey()), entry.getValue());
         }
+        checkValid();
+    }
+
+    private void checkValid() {
+        if (isOnlyDrink()) {
+            throw new IllegalArgumentException(CANNOT_ONLY_DRINK.getMessage());
+        }
+        if (isMoreThan20()) {
+            throw new IllegalArgumentException(CANNOT_ORDER_MORE_THAN_20.getMessage());
+        }
+    }
+
+    private Boolean isOnlyDrink() {
+        return menus.entrySet().stream().noneMatch(entry -> !entry.getKey().isDrink());
+    }
+
+    private Boolean isMoreThan20() {
+        return menus.values().stream().mapToInt(numberOfMenu -> numberOfMenu).sum()
+                > 20;
     }
 
     public Integer getTotalCost() {
@@ -28,9 +49,6 @@ public class Menus {
         //메뉴명 - 개수 형태의 리스트? 맵?으로 반환 예정
     }
 
-    public Boolean isOnlyDrink() {
-        return false; //음료만 시켰는지
-    }
 
     public Integer getNumberOfMain() {
         return 0; //메인 개수
