@@ -1,5 +1,6 @@
 package christmas.service;
 
+import static christmas.service.EventService.getBadgeName;
 import static christmas.service.EventService.getEstimatedCost;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -8,6 +9,8 @@ import christmas.repository.Menus;
 import java.util.HashMap;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 public class EventServiceTest {
     @Test
@@ -23,5 +26,13 @@ public class EventServiceTest {
 
         assertThat(getEstimatedCost(menus.getTotalCost(), events.totalDiscountCost()))
                 .isEqualTo(135_754);
+    }
+
+
+    @ParameterizedTest
+    @CsvSource(value = {"0 : 없음", "5000 : 별", "12345 : 트리", "30000 : 산타"}, delimiter = ':')
+    @DisplayName("가격에 따라 뱃지를 제공한다.")
+    void badgeTest(Integer benefitCost, String badgeName) {
+        assertThat(getBadgeName(benefitCost)).isEqualTo(badgeName);
     }
 }
