@@ -40,5 +40,10 @@ public class Events {
         return event.getEventName() + eventFormat.format(benefit);
     }
 
-    
+    public Integer totalBenefits() {
+        if (events.isEmpty()) {
+            return 0;
+        }
+        return -events.values().stream().reduce(0, Integer::sum);
+    }
 }
