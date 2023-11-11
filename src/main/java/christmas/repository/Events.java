@@ -57,4 +57,11 @@ public class Events {
         return events.entrySet().stream().filter(entry -> entry.getKey() != GIFT_EVENT)
                 .map(Entry::getValue).reduce(0, Integer::sum);
     }
+
+    public String getGiftInfo() {
+        if (events.containsKey(GIFT_EVENT)) {
+            return "샴페인 1개";
+        }
+        return "없음";
+    }
 }
