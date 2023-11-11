@@ -5,8 +5,11 @@ import static christmas.constant.ErrorMessage.CANNOT_ORDER_MORE_THAN_20;
 import static christmas.domain.Menu.toMenu;
 
 import christmas.domain.Menu;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class Menus {
     private final Map<Menu, Integer> menus;
@@ -36,20 +39,7 @@ public class Menus {
         return menus.values().stream().mapToInt(numberOfMenu -> numberOfMenu).sum()
                 > 20;
     }
-
-    public Integer getTotalCost() {
-        return menus.entrySet().stream()
-                .map(menu -> menu.getKey().getCost() * menu.getValue())
-                .reduce(0, Integer::sum);
-    }
-
-    public void getMenuList() {
-        //반환형은 바꿔야함
-        //총 메뉴 리스트 반환
-        //메뉴명 - 개수 형태의 리스트? 맵?으로 반환 예정
-    }
-
-
+    
     public Integer getNumberOfMain() {
         return menus.entrySet().stream().filter(menu -> menu.getKey().isMain())
                 .map(mainMenu -> mainMenu.getValue())
@@ -60,6 +50,22 @@ public class Menus {
         return menus.entrySet().stream().filter(menu -> menu.getKey().isDessert())
                 .map(dessert -> dessert.getValue())
                 .reduce(0, Integer::sum);
+    }
+
+    public Integer getTotalCost() {
+        return menus.entrySet().stream()
+                .map(menu -> menu.getKey().getCost() * menu.getValue())
+                .reduce(0, Integer::sum);
+    }
+
+    public List<String> getMenuInfoList() {
+        return new ArrayList<>(menus.entrySet().stream()
+                .map(menu -> getMenuInfo(menu.getKey().getName(), menu.getValue()))
+                .collect(Collectors.toList()));
+    }
+
+    private String getMenuInfo(String menuName, Integer menuCnt) {
+        return menuName + " " + menuCnt + "개";
     }
 
 }

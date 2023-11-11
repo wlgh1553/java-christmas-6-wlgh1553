@@ -79,4 +79,16 @@ public class MenusTest {
         assertThat(menus.getNumberOfMain()).isEqualTo(5);
         assertThat(menus.getNumberOfDessert()).isEqualTo(4);
     }
+
+    @Test
+    @DisplayName("메뉴 정보에 대한 출력용 리스트를 반환한다.")
+    void getMenuInformationList() {
+        Map<String, Integer> inputOrders = new HashMap<>() {{
+            put("초코케이크", 2);
+            put("티본스테이크", 1);
+        }};
+        Menus menus = new Menus(inputOrders);
+
+        assertThat(menus.getMenuInfoList()).contains("티본스테이크 1개", "초코케이크 2개");
+    }
 }
