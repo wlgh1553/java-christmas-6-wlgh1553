@@ -63,4 +63,20 @@ public class MenusTest {
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining(CANNOT_ORDER_MORE_THAN_20.getMessage());
     }
+
+    @Test
+    @DisplayName("메인 메뉴 개수와 디저트 메뉴 개수를 계산한다.")
+    void getNumberOfMainAndDessertMenu() {
+        Map<String, Integer> inputOrders = new HashMap<>() {{
+            put("양송이수프", 1);
+            put("티본스테이크", 2);
+            put("바비큐립", 3);
+            put("초코케이크", 4);
+            put("레드와인", 5);
+        }};
+        Menus menus = new Menus(inputOrders);
+
+        assertThat(menus.getNumberOfMain()).isEqualTo(5);
+        assertThat(menus.getNumberOfDessert()).isEqualTo(4);
+    }
 }

@@ -51,11 +51,15 @@ public class Menus {
 
 
     public Integer getNumberOfMain() {
-        return 0; //메인 개수
+        return menus.entrySet().stream().filter(menu -> menu.getKey().isMain())
+                .map(mainMenu -> mainMenu.getValue())
+                .reduce(0, Integer::sum);
     }
 
     public Integer getNumberOfDessert() {
-        return 0; //디저트 개수
+        return menus.entrySet().stream().filter(menu -> menu.getKey().isDessert())
+                .map(dessert -> dessert.getValue())
+                .reduce(0, Integer::sum);
     }
 
 }
