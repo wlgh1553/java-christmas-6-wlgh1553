@@ -1,5 +1,7 @@
 package christmas.repository;
 
+import static christmas.domain.Event.GIFT_EVENT;
+
 import christmas.domain.Event;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -7,6 +9,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 public class Events {
     private Map<Event, Integer> events;
@@ -40,10 +43,18 @@ public class Events {
         return event.getEventName() + eventFormat.format(benefit);
     }
 
-    public Integer totalBenefits() {
+    public Integer totalBenefitCost() {
         if (events.isEmpty()) {
             return 0;
         }
-        return -events.values().stream().reduce(0, Integer::sum);
+        return events.values().stream().reduce(0, Integer::sum);
+    }
+
+    public Integer totalDiscountCost() {
+        if (events.isEmpty()) {
+            return 0;
+        }
+        return events.entrySet().stream().filter(entry -> entry.getKey() != GIFT_EVENT)
+                .map(Entry::getValue).reduce(0, Integer::sum);
     }
 }

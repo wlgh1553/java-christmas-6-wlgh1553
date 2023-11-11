@@ -19,12 +19,19 @@ public class EventsTest {
         benefitList.forEach(benefitOutput ->
                 assertThat(events.getEventList()).contains(benefitOutput));
     }
-    
+
     @ParameterizedTest
     @MethodSource("provideDatesAndBenefitSum")
     @DisplayName("총 혜택 금액 계산")
     void totalBenefitTest(Integer date, Menus menus, Integer totalSum) {
-        assertThat(new Events(date, menus).totalBenefits()).isEqualTo(totalSum);
+        assertThat(new Events(date, menus).totalBenefitCost()).isEqualTo(totalSum);
+    }
+
+    @ParameterizedTest
+    @MethodSource("provideDatesAndDiscountSum")
+    @DisplayName("총 혜택 금액 계산")
+    void totalDiscountTest(Integer date, Menus menus, Integer totalSum) {
+        assertThat(new Events(date, menus).totalDiscountCost()).isEqualTo(totalSum);
     }
 
 
@@ -53,7 +60,22 @@ public class EventsTest {
                     put("바비큐립", 1);
                     put("초코케이크", 2);
                     put("제로콜라", 1);
-                }}), -31_246),
+                }}), 31_246),
+                Arguments.of(26, new Menus(new HashMap<>() {{
+                    put("타파스", 1);
+                    put("제로콜라", 1);
+                }}), 0)
+        );
+    }
+
+    private static Stream<Arguments> provideDatesAndDiscountSum() {
+        return Stream.of(
+                Arguments.of(3, new Menus(new HashMap<>() {{
+                    put("티본스테이크", 1);
+                    put("바비큐립", 1);
+                    put("초코케이크", 2);
+                    put("제로콜라", 1);
+                }}), 6_246),
                 Arguments.of(26, new Menus(new HashMap<>() {{
                     put("타파스", 1);
                     put("제로콜라", 1);
