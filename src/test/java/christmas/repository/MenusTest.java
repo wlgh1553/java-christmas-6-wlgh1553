@@ -22,7 +22,7 @@ public class MenusTest {
 
         Menus menus = new Menus(inputOrders);
 
-        assertThat(menus.getTotalCost()).isEqualTo(14_500);
+        assertThat(menus.getCostSum()).isEqualTo(14_500);
     }
 
     @Test

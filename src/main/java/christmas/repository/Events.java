@@ -17,7 +17,7 @@ public class Events {
     public Events(int date, Menus menus) {
         events = new HashMap<>();
 
-        if (!isOrderCostValid(menus.getTotalCost())) {
+        if (!isOrderCostValid(menus.getCostSum())) {
             return;
         }
 

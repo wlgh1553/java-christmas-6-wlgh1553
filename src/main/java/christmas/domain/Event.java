@@ -61,7 +61,7 @@ public enum Event {
     }
 
     private static Integer getGiftEventBenefit(Integer date, Menus menus) {
-        if (!GIFT_EVENT.benefitCondition.apply(menus.getTotalCost())) {
+        if (!GIFT_EVENT.benefitCondition.apply(menus.getCostSum())) {
             return 0;
         }
         return CHAMPAGNE.getCost();

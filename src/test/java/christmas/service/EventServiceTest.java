@@ -24,7 +24,7 @@ public class EventServiceTest {
         }});
         Events events = new Events(3, menus);
 
-        assertThat(getEstimatedCost(menus.getTotalCost(), events.totalDiscountCost()))
+        assertThat(getEstimatedCost(menus.getCostSum(), events.totalDiscountCost()))
                 .isEqualTo(135_754);
     }
 

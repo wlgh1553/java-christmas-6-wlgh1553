@@ -39,7 +39,7 @@ public class Menus {
         return menus.values().stream().mapToInt(numberOfMenu -> numberOfMenu).sum()
                 > 20;
     }
-    
+
     public Integer getNumberOfMain() {
         return menus.entrySet().stream().filter(menu -> menu.getKey().isMain())
                 .map(mainMenu -> mainMenu.getValue())
@@ -52,12 +52,13 @@ public class Menus {
                 .reduce(0, Integer::sum);
     }
 
-    public Integer getTotalCost() {
+    public Integer getCostSum() {
         return menus.entrySet().stream()
                 .map(menu -> menu.getKey().getCost() * menu.getValue())
                 .reduce(0, Integer::sum);
     }
 
+    //이거 두 개를 빼야됨
     public List<String> getMenuInfoList() {
         return new ArrayList<>(menus.entrySet().stream()
                 .map(menu -> getMenuInfo(menu.getKey().getName(), menu.getValue()))
@@ -66,6 +67,13 @@ public class Menus {
 
     private String getMenuInfo(String menuName, Integer menuCnt) {
         return menuName + " " + menuCnt + "개";
+    }
+
+    public Map<String, Integer> getMenuInfos() {
+        Map<String, Integer> menuInfos = new HashMap<>();
+        menus.entrySet().forEach(
+                entry -> menuInfos.put(entry.getKey().getName(), entry.getValue()));
+        return menuInfos;
     }
 
 }
