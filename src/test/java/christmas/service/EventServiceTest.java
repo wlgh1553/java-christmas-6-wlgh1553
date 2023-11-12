@@ -1,17 +1,16 @@
 package christmas.service;
 
-import static christmas.service.EventService.getBadgeName;
-import static christmas.service.EventService.getEstimatedCost;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import christmas.repository.Events;
 import christmas.repository.Menus;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 public class EventServiceTest {
     @Test
@@ -37,8 +36,17 @@ public class EventServiceTest {
         assertThat(eventService.getGiftMenu()).isEqualTo(List.of("없음"));
     }
 
+    @ParameterizedTest
+    @MethodSource("provideDatesAndBenefitResults")
+    @DisplayName("혜택 내역으로 출력될 문자열 확인")
+    void benefitListTest(Integer date, Menus menus, List<String> benefitList) {
+        EventService eventService = new EventService(date, menus);
+        benefitList.forEach(benefitOutput ->
+                assertThat(eventService.getBenefitDetails()).contains(benefitOutput));
+    }
+
     @Test
-    @DisplayName("할인 후 예상 결제 금액을 계산한다.")
+    @DisplayName("할인 후 예상 결제 금액을 포맷한다.")
     void estimatedCostTest() {
         Menus menus = new Menus(new HashMap<>() {{
             put("티본스테이크", 1);
@@ -46,16 +54,27 @@ public class EventServiceTest {
             put("초코케이크", 2);
             put("제로콜라", 1);
         }});
-        Events events = new Events(3, menus);
+        EventService eventService = new EventService(3, menus);
 
-        assertThat(getEstimatedCost(menus.getCostSum(), events.totalDiscountCost()))
-                .isEqualTo(135_754);
+        assertThat(eventService.getFormattedEstimatedCost()).isEqualTo("135,754원");
+        assertThat(eventService.getBadgeName()).isEqualTo("산타");
     }
-    
-    @ParameterizedTest
-    @CsvSource(value = {"0 : 없음", "5000 : 별", "12345 : 트리", "30000 : 산타"}, delimiter = ':')
-    @DisplayName("가격에 따라 뱃지를 제공한다.")
-    void badgeTest(Integer benefitCost, String badgeName) {
-        assertThat(getBadgeName(benefitCost)).isEqualTo(badgeName);
+
+    private static Stream<Arguments> provideDatesAndBenefitResults() {
+        return Stream.of(
+                Arguments.of(3, new Menus(new HashMap<>() {{
+                    put("티본스테이크", 1);
+                    put("바비큐립", 1);
+                    put("초코케이크", 2);
+                    put("제로콜라", 1);
+                }}), List.of("크리스마스 디데이 할인: -1,200원",
+                        "평일 할인: -4,046원",
+                        "특별 할인: -1,000원",
+                        "증정 이벤트: -25,000원")),
+                Arguments.of(26, new Menus(new HashMap<>() {{
+                    put("타파스", 1);
+                    put("제로콜라", 1);
+                }}), List.of("없음"))
+        );
     }
 }
