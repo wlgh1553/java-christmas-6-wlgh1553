@@ -51,10 +51,19 @@ public class MenuServiceTest {
 
     @Test
     @DisplayName("메뉴 정보에 대한 출력용 리스트를 반환한다.")
-    void getMenuInformationList() {
+    void getMenuInformationListTest() {
         String duplicatedOrder = "티본스테이크-1,초코케이크-2";
         MenuService menuService = new MenuService(duplicatedOrder);
 
         assertThat(menuService.getFormattedMenuInfos()).contains("티본스테이크 1개", "초코케이크 2개");
+    }
+
+    @Test
+    @DisplayName("총 합계 금액을 ,를 찍어 형식에 맞는 문자열로 만든다.")
+    void getFormattedTotalCostTest() {
+        String duplicatedOrder = "티본스테이크-1,초코케이크-2";
+        MenuService menuService = new MenuService(duplicatedOrder);
+
+        assertThat(menuService.getFormattedTotalCost()).isEqualTo("85,000원");
     }
 }

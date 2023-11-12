@@ -55,7 +55,7 @@ public class Menus {
                 .reduce(0, Integer::sum);
     }
 
-    public Map<String, Integer> getMenuInfos() {
+    public Map<String, Integer> getMenuNameAndNumber() {
         Map<String, Integer> menuInfos = new HashMap<>();
         menus.entrySet().forEach(
                 entry -> menuInfos.put(entry.getKey().getName(), entry.getValue()));

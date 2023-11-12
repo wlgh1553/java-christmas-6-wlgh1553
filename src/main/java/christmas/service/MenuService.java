@@ -68,7 +68,7 @@ public class MenuService {
     }
 
     public List<String> getFormattedMenuInfos() {
-        return new ArrayList<>(menus.getMenuInfos().entrySet().stream()
+        return new ArrayList<>(menus.getMenuNameAndNumber().entrySet().stream()
                 .map(menu -> getFormattedMenuInfo(menu.getKey(), menu.getValue()))
                 .collect(Collectors.toList()));
     }
