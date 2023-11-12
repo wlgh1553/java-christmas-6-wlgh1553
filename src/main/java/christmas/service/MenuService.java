@@ -18,6 +18,10 @@ public class MenuService {
         menus = new Menus(parseMenuInfo(splitOneMenu(order)));
     }
 
+    public Menus getMenus() {
+        return menus;
+    }
+
     private List<String> splitOneMenu(String order) {
         //입력된 메뉴들이 제대로 되었는지 확인 + 파싱해서 반환
         return Arrays.stream(order.split(",", -1)).toList();

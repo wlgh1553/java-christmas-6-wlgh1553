@@ -35,14 +35,20 @@ public class EventService {
                 .toList();
     }
 
+    private String formatMinusCost(Integer cost) {
+        if (cost == 0) {
+            return "0원";
+        }
+        DecimalFormat minusFormat = new DecimalFormat("-###,###원");
+        return minusFormat.format(cost);
+    }
+
     private String getFormattedBenefitDetail(String name, Integer cost) {
-        DecimalFormat eventFormat = new DecimalFormat(": -###,###원");
-        return name + eventFormat.format(cost);
+        return name + ": " + formatMinusCost(cost);
     }
 
     public String getFormattedTotalBenefitCost() {
-        DecimalFormat benefitFormat = new DecimalFormat("-###,###원");
-        return benefitFormat.format(events.totalBenefitCost());
+        return formatMinusCost(events.totalBenefitCost());
     }
 
     public String getFormattedEstimatedCost() {

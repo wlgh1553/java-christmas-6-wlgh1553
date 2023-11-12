@@ -11,7 +11,6 @@ import java.util.Map.Entry;
 
 public class Events {
     private Map<Event, Integer> events;
-    //결국 총 금액을 기억해야 하는구나...
     private Integer totalMenuCost;
 
     public Events(Integer date, Menus menus) {
@@ -45,7 +44,6 @@ public class Events {
     }
 
     public Integer getEstimatedCost() {
-        System.out.println(totalMenuCost);
         return totalMenuCost - totalDiscountCost();
     }
 
