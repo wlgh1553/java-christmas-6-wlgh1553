@@ -1,6 +1,7 @@
 package christmas.repository;
 
 import static christmas.domain.Event.GIFT_EVENT;
+import static christmas.domain.Menu.CHAMPAGNE;
 
 import christmas.domain.Event;
 import java.text.DecimalFormat;
@@ -14,7 +15,7 @@ import java.util.Map.Entry;
 public class Events {
     private Map<Event, Integer> events;
 
-    public Events(int date, Menus menus) {
+    public Events(Integer date, Menus menus) {
         events = new HashMap<>();
 
         if (!isOrderCostValid(menus.getCostSum())) {
@@ -58,10 +59,11 @@ public class Events {
                 .map(Entry::getValue).reduce(0, Integer::sum);
     }
 
-    public String getGiftInfo() {
+    public Map<String, Integer> getGiftNameAndNumber() {
+        Map<String, Integer> gifts = new HashMap<>();
         if (events.containsKey(GIFT_EVENT)) {
-            return "샴페인 1개";
+            gifts.put(CHAMPAGNE.getName(), 1);
         }
-        return "없음";
+        return gifts;
     }
 }
