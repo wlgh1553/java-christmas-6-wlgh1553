@@ -2,18 +2,20 @@ package christmas.service;
 
 import static christmas.constant.ErrorMessage.INVALID_ORDER;
 
+import christmas.repository.Menus;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class MenuService {
-    //private final Menus menus;
-    public Map<String, Integer> puhaha; //임시 - 나중에 menus 만들거임 바로
+    private final Menus menus;
 
     public MenuService(String order) {
-        //문자열의 타당성 검토가 끝나면 menus를 만듦
-        puhaha = parseMenuInfo(splitOneMenu(order));
+        menus = new Menus(parseMenuInfo(splitOneMenu(order)));
     }
 
     private List<String> splitOneMenu(String order) {
@@ -65,14 +67,19 @@ public class MenuService {
         }
     }
 
-    public List<String> getOrderedMenus() {
-        return null;
-        //주문 메뉴 전체를 반환해줌
+    public List<String> getFormattedMenuInfos() {
+        return new ArrayList<>(menus.getMenuInfos().entrySet().stream()
+                .map(menu -> getFormattedMenuInfo(menu.getKey(), menu.getValue()))
+                .collect(Collectors.toList()));
     }
 
-    public String getTotalCost() {
-        return "hi";
-        //포맷된 총 주문 금액 문자열로 보내주기
+    private String getFormattedMenuInfo(String menuName, Integer menuCnt) {
+        return menuName + " " + menuCnt + "개";
+    }
+
+    public String getFormattedTotalCost() {
+        DecimalFormat moneyFormat = new DecimalFormat("###,###원");
+        return moneyFormat.format(menus.getCostSum());
     }
 
 }

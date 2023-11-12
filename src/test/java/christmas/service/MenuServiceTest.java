@@ -1,6 +1,7 @@
 package christmas.service;
 
 import static christmas.constant.ErrorMessage.INVALID_ORDER;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import org.junit.jupiter.api.DisplayName;
@@ -36,5 +37,24 @@ public class MenuServiceTest {
         assertThatThrownBy(() -> new MenuService(duplicatedOrder))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining(INVALID_ORDER.getMessage());
+    }
+
+    @Test
+    @DisplayName("존재하지 않는 메뉴가 입력되면 예외가 발생한다.")
+    void noSuchMenuTest() {
+        String duplicatedOrder = "습하게띠-1";
+
+        assertThatThrownBy(() -> new MenuService(duplicatedOrder))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining(INVALID_ORDER.getMessage());
+    }
+
+    @Test
+    @DisplayName("메뉴 정보에 대한 출력용 리스트를 반환한다.")
+    void getMenuInformationList() {
+        String duplicatedOrder = "티본스테이크-1,초코케이크-2";
+        MenuService menuService = new MenuService(duplicatedOrder);
+
+        assertThat(menuService.getFormattedMenuInfos()).contains("티본스테이크 1개", "초코케이크 2개");
     }
 }

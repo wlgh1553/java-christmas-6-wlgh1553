@@ -5,11 +5,8 @@ import static christmas.constant.ErrorMessage.CANNOT_ORDER_MORE_THAN_20;
 import static christmas.domain.Menu.toMenu;
 
 import christmas.domain.Menu;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 public class Menus {
     private final Map<Menu, Integer> menus;
@@ -56,17 +53,6 @@ public class Menus {
         return menus.entrySet().stream()
                 .map(menu -> menu.getKey().getCost() * menu.getValue())
                 .reduce(0, Integer::sum);
-    }
-
-    //이거 두 개를 빼야됨
-    public List<String> getMenuInfoList() {
-        return new ArrayList<>(menus.entrySet().stream()
-                .map(menu -> getMenuInfo(menu.getKey().getName(), menu.getValue()))
-                .collect(Collectors.toList()));
-    }
-
-    private String getMenuInfo(String menuName, Integer menuCnt) {
-        return menuName + " " + menuCnt + "개";
     }
 
     public Map<String, Integer> getMenuInfos() {
