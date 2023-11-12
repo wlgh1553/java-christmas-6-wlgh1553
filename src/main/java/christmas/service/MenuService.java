@@ -51,7 +51,11 @@ public class MenuService {
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException(INVALID_ORDER.getMessage());
         }
-        return number;
+        
+        if (number >= 1) {
+            return number;
+        }
+        throw new IllegalArgumentException(INVALID_ORDER.getMessage());
     }
 
     private void checkDuplication() {

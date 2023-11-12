@@ -11,7 +11,7 @@ public class Outputs {
         System.out.println("12월 " + date + "에 우테코 식당에서 받을 이벤트 혜택 미리 보기!");
     }
 
-    //menus의 getMenuInfoList에서 받아와
+    //menuService에서 받아와
     public static void showOrderMenus(List<String> menuInfos) {
         System.out.println("<주문 메뉴>");
         for (String info : menuInfos) {
@@ -19,7 +19,7 @@ public class Outputs {
         }
     }
 
-    //service에서 받아와
+    //menuService에서 받아와
     public static void showTotalCost(String formattedTotalCost) {
         System.out.println("<할인 전 총주문 금액>");
         System.out.println(formattedTotalCost);
