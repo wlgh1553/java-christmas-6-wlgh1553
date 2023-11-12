@@ -9,7 +9,7 @@ import java.util.Map;
 
 public class MenuService {
     //private final Menus menus;
-    public Map<String, Integer> puhaha;
+    public Map<String, Integer> puhaha; //임시 - 나중에 menus 만들거임 바로
 
     public MenuService(String order) {
         //문자열의 타당성 검토가 끝나면 menus를 만듦
@@ -26,6 +26,7 @@ public class MenuService {
         for (String order : orders) {
             String[] tokens = order.split("-", -1);
             checkValidToken(tokens);
+            checkDuplication(menus, validMenuName(tokens[0]));
             menus.put(validMenuName(tokens[0]), validMenuCnt(tokens[1]));
         }
         return menus;
@@ -44,22 +45,24 @@ public class MenuService {
         return name;
     }
 
-    private Integer validMenuCnt(String numberOfmenus) {
+    private Integer validMenuCnt(String numberOfMenus) {
         Integer number;
         try {
-            number = Integer.valueOf(numberOfmenus);
+            number = Integer.valueOf(numberOfMenus);
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException(INVALID_ORDER.getMessage());
         }
-        
+
         if (number >= 1) {
             return number;
         }
         throw new IllegalArgumentException(INVALID_ORDER.getMessage());
     }
 
-    private void checkDuplication() {
-        //중복되면 안 된다.
+    private void checkDuplication(Map<String, Integer> menus, String menuName) {
+        if (menus.containsKey(menuName)) {
+            throw new IllegalArgumentException(INVALID_ORDER.getMessage());
+        }
     }
 
     public List<String> getOrderedMenus() {

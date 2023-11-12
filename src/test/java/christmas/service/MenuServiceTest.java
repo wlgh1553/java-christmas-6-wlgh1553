@@ -4,6 +4,7 @@ import static christmas.constant.ErrorMessage.INVALID_ORDER;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
@@ -23,6 +24,16 @@ public class MenuServiceTest {
     @DisplayName("개수가 1 이상의 정수가 아닌 경우 않으면 예외가 발생한다.")
     void invalidNumberOfMenuTest(String invalidInput) {
         assertThatThrownBy(() -> new MenuService(invalidInput))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining(INVALID_ORDER.getMessage());
+    }
+
+    @Test
+    @DisplayName("중복 메뉴가 입력되면 예외가 발생한다.")
+    void duplicatedMenuTest() {
+        String duplicatedOrder = "타파스-1,타파스-1,제로콜라-1";
+
+        assertThatThrownBy(() -> new MenuService(duplicatedOrder))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining(INVALID_ORDER.getMessage());
     }
