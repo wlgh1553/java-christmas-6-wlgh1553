@@ -5,6 +5,7 @@ import static christmas.constant.ErrorMessage.INVALID_ORDER;
 import christmas.repository.Menus;
 import java.text.DecimalFormat;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,7 +34,7 @@ public class MenuService {
             checkDuplication(menus, validMenuName(tokens[0]));
             menus.put(validMenuName(tokens[0]), validMenuCnt(tokens[1]));
         }
-        return menus;
+        return Collections.unmodifiableMap(menus);
     }
 
     private void checkValidToken(String[] tokens) {

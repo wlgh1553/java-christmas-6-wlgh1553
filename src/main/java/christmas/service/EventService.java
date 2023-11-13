@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 public class EventService {
-    private Events events;
+    private final Events events;
 
     public EventService(Integer date, Menus menus) {
         events = new Events(date, menus);

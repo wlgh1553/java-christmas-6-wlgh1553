@@ -5,6 +5,7 @@ import static christmas.constant.ErrorMessage.CANNOT_ORDER_MORE_THAN_20;
 import static christmas.domain.Menu.toMenu;
 
 import christmas.domain.Menu;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -60,7 +61,7 @@ public class Menus {
     public Map<String, Integer> getMenuNameAndNumber() {
         Map<String, Integer> menuInfos = new HashMap<>();
         menus.forEach((key, value) -> menuInfos.put(key.getName(), value));
-        return menuInfos;
+        return Collections.unmodifiableMap(menuInfos);
     }
 
 }

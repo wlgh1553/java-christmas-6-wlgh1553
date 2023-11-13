@@ -5,6 +5,7 @@ import static christmas.domain.Menu.CHAMPAGNE;
 
 import christmas.domain.Event;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -31,10 +32,8 @@ public class Events {
 
     public Map<String, Integer> getEventDetails() {
         Map<String, Integer> benefits = new HashMap<>();
-        events.entrySet().forEach(
-                entry -> benefits.put(entry.getKey().getEventName(), entry.getValue())
-        );
-        return benefits;
+        events.forEach((key, value) -> benefits.put(key.getEventName(), value));
+        return Collections.unmodifiableMap(benefits);
     }
 
     public Integer totalBenefitCost() {
@@ -61,6 +60,6 @@ public class Events {
         if (events.containsKey(GIFT_EVENT)) {
             gifts.put(CHAMPAGNE.getName(), 1);
         }
-        return gifts;
+        return Collections.unmodifiableMap(gifts);
     }
 }

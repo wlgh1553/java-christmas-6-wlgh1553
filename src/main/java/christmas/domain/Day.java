@@ -3,7 +3,7 @@ package christmas.domain;
 import static christmas.constant.ErrorMessage.INVALID_DATE;
 
 import java.util.Arrays;
-import java.util.HashSet;
+import java.util.Collections;
 import java.util.Set;
 
 public enum Day {
@@ -12,7 +12,7 @@ public enum Day {
 
     private final Integer dateMod;
     private static final Set<Integer> specialDays =
-            new HashSet<>(Arrays.asList(3, 10, 17, 24, 25, 31));
+            Collections.unmodifiableSet(Set.of(3, 10, 17, 24, 25, 31));
     private static final Integer dDayEventStartDate = 1;
     private static final Integer dDayEventEndDate = 25;
 
