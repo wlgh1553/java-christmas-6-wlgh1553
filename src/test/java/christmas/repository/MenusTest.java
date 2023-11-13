@@ -8,60 +8,47 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 public class MenusTest {
     @Test
     @DisplayName("주문한 메뉴의 총 가격을 계산한다.")
     void calculateTotalCost() {
-        Map<String, Integer> inputOrders = new HashMap<>() {{
+        Menus menus = new Menus(new HashMap<>() {{
             put("타파스", 1);
             put("제로콜라", 3);
-        }};
-
-        Menus menus = new Menus(inputOrders);
+        }});
 
         assertThat(menus.getCostSum()).isEqualTo(14_500);
     }
 
-    @Test
-    @DisplayName("없는 메뉴가 들어오는 경우 예외가 발생한다.")
-    void noSuchMenuException() {
-        Map<String, Integer> inputOrders = new HashMap<>() {{
-            put("타파스", 1);
-            put("제로사이다", 3);
-        }};
-
-        assertThatThrownBy(() -> new Menus(inputOrders))
+    @ParameterizedTest
+    @MethodSource("provideInvalidOrdersAndExceptionMessages")
+    @DisplayName("잘못된 주문이 들어오는 경우 예외가 발생한다.")
+    void noSuchMenuException(Map<String, Integer> order, String exceptionMessage) {
+        assertThatThrownBy(() -> new Menus(order))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining(INVALID_ORDER.getMessage());
+                .hasMessageContaining(exceptionMessage);
     }
 
-    @Test
-    @DisplayName("음료만 주문한 경우 예외가 발생한다.")
-    void onlyDrinkException() {
-        Map<String, Integer> inputOrders = new HashMap<>() {{
-            put("레드와인", 1);
-            put("제로콜라", 3);
-        }};
-
-        assertThatThrownBy(() -> new Menus(inputOrders))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining(CANNOT_ONLY_DRINK.getMessage());
-    }
-
-    @Test
-    @DisplayName("20개 초과 주문 시 예외가 발생한다.")
-    void moreThan20Exception() {
-        Map<String, Integer> inputOrders = new HashMap<>() {{
-            put("타파스", 10);
-            put("제로콜라", 20);
-        }};
-
-        assertThatThrownBy(() -> new Menus(inputOrders))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining(CANNOT_ORDER_MORE_THAN_20.getMessage());
+    private static Stream<Arguments> provideInvalidOrdersAndExceptionMessages() {
+        return Stream.of(
+                Arguments.of(new HashMap<>() {{
+                    put("제로사이다", 3);
+                }}, INVALID_ORDER.getMessage()),
+                Arguments.of(new HashMap<>() {{
+                    put("제로콜라", 3);
+                }}, CANNOT_ONLY_DRINK.getMessage()),
+                Arguments.of(new HashMap<>() {{
+                    put("타파스", 1);
+                    put("제로콜라", 20);
+                }}, CANNOT_ORDER_MORE_THAN_20.getMessage())
+        );
     }
 
     @Test
@@ -69,13 +56,12 @@ public class MenusTest {
     void getNumberOfMainAndDessertMenu() {
         Map<String, Integer> inputOrders = new HashMap<>() {{
             put("양송이수프", 1);
+            put("초코케이크", 4);
             put("티본스테이크", 2);
             put("바비큐립", 3);
-            put("초코케이크", 4);
             put("레드와인", 5);
         }};
         Menus menus = new Menus(inputOrders);
-
         assertThat(menus.getNumberOfMain()).isEqualTo(5);
         assertThat(menus.getNumberOfDessert()).isEqualTo(4);
     }

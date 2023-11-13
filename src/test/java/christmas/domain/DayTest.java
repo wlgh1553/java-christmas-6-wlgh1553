@@ -10,6 +10,8 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 public class DayTest {
     @Test
@@ -29,20 +31,17 @@ public class DayTest {
         assertThat(isWeekday(date)).isTrue();
     }
 
-    @Test
+    @ParameterizedTest
+    @CsvSource(value = {"3 : true", "4 : false"}, delimiter = ':')
     @DisplayName("날짜를 넣으면 별표시된 날짜인지 알려준다.")
-    void specialDayTest() {
-        int specialDate = 3, noSpecialDate = 4;
-        assertThat(isSpecialDay(specialDate)).isTrue();
-        assertThat(isSpecialDay(noSpecialDate)).isFalse();
+    void specialDayTest(int date, boolean result) {
+        assertThat(isSpecialDay(date)).isEqualTo(result);
     }
 
-    @Test
+    @ParameterizedTest
+    @CsvSource(value = {"10 : true", "30 : false"}, delimiter = ':')
     @DisplayName("날짜를 넣으면 디데이 할인 기간인지 알려준다.")
-    void dDayPeriodTest() {
-        int preChristmas = 10;
-        int posChristmas = 30;
-        assertThat(isDdayPeriod(preChristmas)).isTrue();
-        assertThat(isDdayPeriod(posChristmas)).isFalse();
+    void dDayPeriodTest(int date, boolean result) {
+        assertThat(isDdayPeriod(date)).isEqualTo(result);
     }
 }
