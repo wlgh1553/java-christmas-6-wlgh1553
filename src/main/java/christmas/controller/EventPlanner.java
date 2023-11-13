@@ -23,11 +23,11 @@ public class EventPlanner {
         int date = getValidDate();
         MenuService menuService = getValidMenuService();
         EventService eventService = new EventService(date, menuService.getMenus());
-        showPrevEventMessage(date);
-        showEventResult(menuService, eventService);
+        showEventResult(date, menuService, eventService);
     }
 
-    private void showEventResult(MenuService menuService, EventService eventService) {
+    private void showEventResult(Integer date, MenuService menuService, EventService eventService) {
+        showPrevEventMessage(date);
         showOrderMenus(menuService.getFormattedMenuInfos());
         showTotalCost(menuService.getFormattedTotalCost());
         showGiftMenu(eventService.getGiftMenu());

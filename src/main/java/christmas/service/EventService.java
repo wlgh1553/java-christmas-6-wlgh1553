@@ -5,7 +5,6 @@ import static christmas.domain.Badge.getBadge;
 import christmas.repository.Events;
 import christmas.repository.Menus;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -19,7 +18,7 @@ public class EventService {
     public List<String> getGiftMenu() {
         Map<String, Integer> gifts = events.getGiftNameAndNumber();
         if (gifts.isEmpty()) {
-            return new ArrayList<>(List.of("없음"));
+            return List.of("없음");
         }
         return gifts.entrySet().stream().map(entry -> entry.getKey() + " "
                 + entry.getValue() + "개").toList();
@@ -28,7 +27,7 @@ public class EventService {
     public List<String> getBenefitDetails() {
         Map<String, Integer> benefits = events.getEventDetails();
         if (benefits.isEmpty()) {
-            return new ArrayList<>(List.of("없음"));
+            return List.of("없음");
         }
         return benefits.entrySet().stream()
                 .map(entry -> getFormattedBenefitDetail(entry.getKey(), entry.getValue()))

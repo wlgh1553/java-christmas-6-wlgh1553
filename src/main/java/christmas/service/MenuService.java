@@ -4,7 +4,6 @@ import static christmas.constant.ErrorMessage.INVALID_ORDER;
 
 import christmas.repository.Menus;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -23,7 +22,6 @@ public class MenuService {
     }
 
     private List<String> splitOneMenu(String order) {
-        //입력된 메뉴들이 제대로 되었는지 확인 + 파싱해서 반환
         return Arrays.stream(order.split(",", -1)).toList();
     }
 
@@ -52,9 +50,9 @@ public class MenuService {
     }
 
     private Integer validMenuCnt(String numberOfMenus) {
-        Integer number;
+        int number;
         try {
-            number = Integer.valueOf(numberOfMenus);
+            number = Integer.parseInt(numberOfMenus);
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException(INVALID_ORDER.getMessage());
         }
@@ -72,9 +70,8 @@ public class MenuService {
     }
 
     public List<String> getFormattedMenuInfos() {
-        return new ArrayList<>(menus.getMenuNameAndNumber().entrySet().stream()
-                .map(menu -> getFormattedMenuInfo(menu.getKey(), menu.getValue()))
-                .collect(Collectors.toList()));
+        return menus.getMenuNameAndNumber().entrySet().stream()
+                .map(menu -> getFormattedMenuInfo(menu.getKey(), menu.getValue())).collect(Collectors.toList());
     }
 
     private String getFormattedMenuInfo(String menuName, Integer menuCnt) {

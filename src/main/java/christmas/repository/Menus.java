@@ -7,9 +7,11 @@ import static christmas.domain.Menu.toMenu;
 import christmas.domain.Menu;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 public class Menus {
     private final Map<Menu, Integer> menus;
+    private final Integer MENU_NUMBER_LIMIT = 20;
 
     public Menus(Map<String, Integer> inputOrders) {
         menus = new HashMap<>();
@@ -29,23 +31,23 @@ public class Menus {
     }
 
     private Boolean isOnlyDrink() {
-        return menus.entrySet().stream().noneMatch(entry -> !entry.getKey().isDrink());
+        return menus.entrySet().stream().allMatch(entry -> entry.getKey().isDrink());
     }
 
     private Boolean isMoreThan20() {
         return menus.values().stream().mapToInt(numberOfMenu -> numberOfMenu).sum()
-                > 20;
+                > MENU_NUMBER_LIMIT;
     }
 
     public Integer getNumberOfMain() {
         return menus.entrySet().stream().filter(menu -> menu.getKey().isMain())
-                .map(mainMenu -> mainMenu.getValue())
+                .map(Entry::getValue)
                 .reduce(0, Integer::sum);
     }
 
     public Integer getNumberOfDessert() {
         return menus.entrySet().stream().filter(menu -> menu.getKey().isDessert())
-                .map(dessert -> dessert.getValue())
+                .map(Entry::getValue)
                 .reduce(0, Integer::sum);
     }
 
@@ -57,8 +59,7 @@ public class Menus {
 
     public Map<String, Integer> getMenuNameAndNumber() {
         Map<String, Integer> menuInfos = new HashMap<>();
-        menus.entrySet().forEach(
-                entry -> menuInfos.put(entry.getKey().getName(), entry.getValue()));
+        menus.forEach((key, value) -> menuInfos.put(key.getName(), value));
         return menuInfos;
     }
 

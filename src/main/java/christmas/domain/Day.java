@@ -10,9 +10,11 @@ public enum Day {
     MON(4), TUE(5), WED(6), THU(0),
     FRI(1), SAT(2), SUN(3);
 
-    private Integer dateMod;
-    private static Set<Integer> specialDays =
+    private final Integer dateMod;
+    private static final Set<Integer> specialDays =
             new HashSet<>(Arrays.asList(3, 10, 17, 24, 25, 31));
+    private static final Integer dDayEventStartDate = 1;
+    private static final Integer dDayEventEndDate = 25;
 
     Day(Integer dateMod) {
         this.dateMod = dateMod;
@@ -26,8 +28,12 @@ public enum Day {
                 .orElseThrow(() -> new IllegalArgumentException(INVALID_DATE.getMessage()));
     }
 
+    private static boolean isDecemberDate(int date) {
+        return date >= 1 && date <= 31;
+    }
+
     public static int checkDateRange(int date) {
-        if (date < 1 || date > 31) {
+        if (!isDecemberDate(date)) {
             throw new IllegalArgumentException(INVALID_DATE.getMessage());
         }
         return date;
@@ -49,6 +55,6 @@ public enum Day {
 
     public static Boolean isDdayPeriod(int date) {
         checkDateRange(date);
-        return date >= 1 && date <= 25;
+        return date >= dDayEventStartDate && date <= dDayEventEndDate;
     }
 }

@@ -12,6 +12,7 @@ import java.util.Map.Entry;
 public class Events {
     private Map<Event, Integer> events;
     private Integer totalMenuCost;
+    private final Integer EVENT_BASE_PRICE = 10_000;
 
     public Events(Integer date, Menus menus) {
         events = new HashMap<>();
@@ -25,7 +26,7 @@ public class Events {
 
     private Boolean isOrderCostValid(Integer orderCost) {
         totalMenuCost = orderCost;
-        return orderCost >= 10_000;
+        return orderCost >= EVENT_BASE_PRICE;
     }
 
     public Map<String, Integer> getEventDetails() {
