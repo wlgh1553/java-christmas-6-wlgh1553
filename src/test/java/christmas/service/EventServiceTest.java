@@ -13,10 +13,13 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 public class EventServiceTest {
+    private static Map<String, Integer> exampleOrder
+            = Map.of("티본스테이크", 1, "바비큐립", 1, "초코케이크", 2, "제로콜라", 1);
+
     @Test
     @DisplayName("증정 메뉴 리스트를 만든다.")
     void showGiftMenu() {
-        Menus menus = new Menus(Map.of("티본스테이크", 1, "바비큐립", 1, "초코케이크", 2, "제로콜라", 1));
+        Menus menus = new Menus(exampleOrder);
         EventService eventService = new EventService(3, menus);
         assertThat(eventService.getGiftMenu()).isEqualTo(List.of("샴페인 1개"));
     }
@@ -41,16 +44,15 @@ public class EventServiceTest {
     @Test
     @DisplayName("할인 후 예상 결제 금액을 포맷한다.")
     void estimatedCostTest() {
-        Menus menus = new Menus(Map.of("티본스테이크", 1, "바비큐립", 1, "초코케이크", 2, "제로콜라", 1));
+        Menus menus = new Menus(exampleOrder);
         EventService eventService = new EventService(3, menus);
-
         assertThat(eventService.getFormattedEstimatedCost()).isEqualTo("135,754원");
         assertThat(eventService.getBadgeName()).isEqualTo("산타");
     }
 
     private static Stream<Arguments> provideDatesAndBenefitResults() {
         return Stream.of(
-                Arguments.of(3, new Menus(Map.of("티본스테이크", 1, "바비큐립", 1, "초코케이크", 2, "제로콜라", 1)),
+                Arguments.of(3, new Menus(exampleOrder),
                         List.of("크리스마스 디데이 할인: -1,200원", "평일 할인: -4,046원",
                                 "특별 할인: -1,000원", "증정 이벤트: -25,000원")),
                 Arguments.of(26, new Menus(Map.of("타파스", 1, "제로콜라", 1)),
