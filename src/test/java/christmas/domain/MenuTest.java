@@ -13,7 +13,6 @@ public class MenuTest {
     @DisplayName("없는 메뉴를 찾는 경우 예외를 발생시킨다.")
     void noSuchMenuTest() {
         String input = "고르곤졸라피자";
-
         assertThatThrownBy(() -> toMenu(input))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining(INVALID_ORDER.getMessage());
@@ -23,7 +22,6 @@ public class MenuTest {
     @DisplayName("메뉴를 찾아 카테고리와 가격, 이름을 확인한다.")
     void findMenuTest() {
         String input = "초코케이크";
-
         Menu menu = toMenu(input);
         assertThat(menu.isMain()).isFalse();
         assertThat(menu.isDrink()).isFalse();

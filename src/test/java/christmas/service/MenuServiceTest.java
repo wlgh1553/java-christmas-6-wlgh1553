@@ -33,7 +33,6 @@ public class MenuServiceTest {
     @DisplayName("중복 메뉴가 입력되면 예외가 발생한다.")
     void duplicatedMenuTest() {
         String duplicatedOrder = "타파스-1,타파스-1,제로콜라-1";
-
         assertThatThrownBy(() -> new MenuService(duplicatedOrder))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining(INVALID_ORDER.getMessage());
@@ -43,7 +42,6 @@ public class MenuServiceTest {
     @DisplayName("존재하지 않는 메뉴가 입력되면 예외가 발생한다.")
     void noSuchMenuTest() {
         String duplicatedOrder = "습하게띠-1";
-
         assertThatThrownBy(() -> new MenuService(duplicatedOrder))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining(INVALID_ORDER.getMessage());
@@ -54,7 +52,6 @@ public class MenuServiceTest {
     void getMenuInformationListTest() {
         String duplicatedOrder = "티본스테이크-1,초코케이크-2";
         MenuService menuService = new MenuService(duplicatedOrder);
-
         assertThat(menuService.getFormattedMenuInfos()).contains("티본스테이크 1개", "초코케이크 2개");
     }
 
@@ -63,7 +60,6 @@ public class MenuServiceTest {
     void getFormattedTotalCostTest() {
         String duplicatedOrder = "티본스테이크-1,초코케이크-2";
         MenuService menuService = new MenuService(duplicatedOrder);
-
         assertThat(menuService.getFormattedTotalCost()).isEqualTo("85,000원");
     }
 }
