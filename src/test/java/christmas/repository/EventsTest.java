@@ -24,7 +24,7 @@ public class EventsTest {
                 Arguments.of(3, new Menus(Map.of("티본스테이크", 1, "바비큐립", 1,
                         "초코케이크", 2, "제로콜라", 1)), 31_246, 135_754),
                 Arguments.of(26, new Menus(Map.of("타파스", 1, "제로콜라", 1)),
-                        0, 8500)
+                        0, 8_500)
         );
     }
 }
