@@ -58,4 +58,7 @@ public class Outputs {
         System.out.println(badge);
     }
 
+    public static void showErrorMessage(String exceptionMessage) {
+        System.out.println(exceptionMessage);
+    }
 }

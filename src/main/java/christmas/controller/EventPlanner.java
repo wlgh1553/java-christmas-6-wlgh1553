@@ -6,6 +6,7 @@ import static christmas.view.Inputs.getDate;
 import static christmas.view.Inputs.getMenuOrder;
 import static christmas.view.Outputs.showBadge;
 import static christmas.view.Outputs.showBenefits;
+import static christmas.view.Outputs.showErrorMessage;
 import static christmas.view.Outputs.showEstimatedCost;
 import static christmas.view.Outputs.showGiftMenu;
 import static christmas.view.Outputs.showOrderMenus;
@@ -42,7 +43,7 @@ public class EventPlanner {
             try {
                 return checkDateRange(toNumber(getDate()));
             } catch (IllegalArgumentException e) {
-                System.out.println(e.getMessage());
+                showErrorMessage(e.getMessage());
             }
         }
     }
@@ -52,7 +53,7 @@ public class EventPlanner {
             try {
                 return new MenuService(getMenuOrder());
             } catch (IllegalArgumentException e) {
-                System.out.println(e.getMessage());
+                showErrorMessage(e.getMessage());
             }
         }
     }
