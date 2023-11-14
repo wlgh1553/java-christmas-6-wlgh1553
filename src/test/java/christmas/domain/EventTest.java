@@ -4,8 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import christmas.repository.Menus;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
@@ -25,12 +25,10 @@ public class EventTest {
 
     private static Stream<Arguments> provideDatesAndBenefitResults() {
         return Stream.of(
-                Arguments.of(25, new Menus(new HashMap<>() {{
-                    put("초코케이크", 1);
-                }}), List.of(3400, 2023, 0, 1000, 0)),
-                Arguments.of(22, new Menus(new HashMap<>() {{
-                    put("바비큐립", 3);
-                }}), List.of(3100, 0, 6069, 0, 25_000))
+                Arguments.of(25, new Menus(Map.of("초코케이크", 1)),
+                        List.of(3400, 2023, 0, 1000, 0)),
+                Arguments.of(22, new Menus(Map.of("바비큐립", 3)),
+                        List.of(3100, 0, 6069, 0, 25_000))
         );
     }
 }

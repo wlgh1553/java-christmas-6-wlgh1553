@@ -2,7 +2,7 @@ package christmas.repository;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.util.HashMap;
+import java.util.Map;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -21,16 +21,10 @@ public class EventsTest {
 
     private static Stream<Arguments> provideDatesAndCost() {
         return Stream.of(
-                Arguments.of(3, new Menus(new HashMap<>() {{
-                    put("티본스테이크", 1);
-                    put("바비큐립", 1);
-                    put("초코케이크", 2);
-                    put("제로콜라", 1);
-                }}), 31_246, 135_754),
-                Arguments.of(26, new Menus(new HashMap<>() {{
-                    put("타파스", 1);
-                    put("제로콜라", 1);
-                }}), 0, 8500)
+                Arguments.of(3, new Menus(Map.of("티본스테이크", 1, "바비큐립", 1,
+                        "초코케이크", 2, "제로콜라", 1)), 31_246, 135_754),
+                Arguments.of(26, new Menus(Map.of("타파스", 1, "제로콜라", 1))
+                        , 0, 8500)
         );
     }
 }
